@@ -3,10 +3,10 @@ import React, { useState } from 'react'
 /*
   Travel History / Activity UI
   Inspired by ride-hailing activity screens.
-  Each trip card has three bottom actions:
+  Each trip card has two bottom actions:
     - Rate & tip
     - Rebook
-    - Advocate
+  Tapping a card opens a detailed trip view.
 */
 
 const riderTrips = [
@@ -14,49 +14,97 @@ const riderTrips = [
     id: 1,
     route: '910 Jurong West St 91 to NTU@one-north',
     price: 31.40,
-    date: '8 Oct 2026, 18:05',
+    date: '08 Oct 2026, 06:04PM',
     status: 'completed',
     hasLightning: true,
+    bookingId: 'A-9UAXPJ4GX5JRAV',
+    driver: 'Tan Tiong Heng',
+    service: 'Standard | Car or taxi',
+    distance: '15.72 km',
+    duration: '23 min',
+    pickup: { place: '910 Jurong West St 91', time: '6:15 PM' },
+    dropoff: { place: 'NTU@one-north', time: '6:39 PM' },
+    payment: { type: 'VISA', last4: '0518' },
   },
   {
     id: 2,
     route: 'China St Pick-up (Next to China Square Central carpark) to Sengkang',
     price: 44.98,
-    date: '30 Sep 2026, 23:39',
+    date: '30 Sep 2026, 11:39PM',
     status: 'completed',
     hasLightning: false,
+    bookingId: 'A-7KPLM2NQW8VXTE',
+    driver: 'Lim Ah Kow',
+    service: 'Standard | Car or taxi',
+    distance: '18.40 km',
+    duration: '31 min',
+    pickup: { place: 'China St Pick-up', time: '11:39 PM' },
+    dropoff: { place: 'Sengkang', time: '12:10 AM' },
+    payment: { type: 'VISA', last4: '4242' },
   },
   {
     id: 3,
     route: 'Lobby, INSEAD to Blu Jaz - Pekin Street',
     price: 25.90,
-    date: '30 Sep 2026, 22:03',
+    date: '30 Sep 2026, 10:03PM',
     status: 'completed',
     hasLightning: true,
+    bookingId: 'A-3BHFJ9DKL2PQRT',
+    driver: 'Sarah Tan',
+    service: 'Standard | Car or taxi',
+    distance: '6.80 km',
+    duration: '14 min',
+    pickup: { place: 'Lobby, INSEAD', time: '10:03 PM' },
+    dropoff: { place: 'Blu Jaz - Pekin Street', time: '10:17 PM' },
+    payment: { type: 'VISA', last4: '0518' },
   },
   {
     id: 4,
     route: 'Lobby, INSEAD to 910 Jurong West St 91',
     price: null,
-    date: '30 Sep 2026, 22:00',
+    date: '30 Sep 2026, 10:00PM',
     status: 'cancelled',
     hasLightning: false,
+    bookingId: 'A-5CMXW1ZYP9NBVD',
+    driver: 'Not assigned',
+    service: 'Standard | Car or taxi',
+    distance: '0.00 km',
+    duration: '0 min',
+    pickup: { place: 'Lobby, INSEAD', time: '10:00 PM' },
+    dropoff: { place: '910 Jurong West St 91', time: '—' },
+    payment: { type: 'VISA', last4: '0518' },
   },
   {
     id: 5,
     route: 'North Bridge Rd Entrance, Funan Mall to Graduate Hall, NUS',
     price: 73.60,
-    date: '28 Sep 2026, 03:11',
+    date: '28 Sep 2026, 03:11AM',
     status: 'completed',
     hasLightning: false,
+    bookingId: 'A-2QWER4TYUI7OPA',
+    driver: 'Muhammad Faizal',
+    service: 'Standard | Car or taxi',
+    distance: '22.50 km',
+    duration: '28 min',
+    pickup: { place: 'North Bridge Rd Entrance, Funan Mall', time: '3:11 AM' },
+    dropoff: { place: 'Graduate Hall, NUS', time: '3:39 AM' },
+    payment: { type: 'VISA', last4: '8888' },
   },
   {
     id: 6,
     route: 'Lobby, MBS Hotel Tower 3 to Pure K 纯K - Funan Mall',
     price: 14.00,
-    date: '27 Sep 2026, 23:48',
+    date: '27 Sep 2026, 11:48PM',
     status: 'completed',
     hasLightning: false,
+    bookingId: 'A-8ZXCV1BNMA3SDF',
+    driver: 'Koh Wei Ling',
+    service: 'Standard | Car or taxi',
+    distance: '4.20 km',
+    duration: '9 min',
+    pickup: { place: 'Lobby, MBS Hotel Tower 3', time: '11:48 PM' },
+    dropoff: { place: 'Pure K 纯K - Funan Mall', time: '11:57 PM' },
+    payment: { type: 'VISA', last4: '1234' },
   },
 ]
 
@@ -65,49 +113,97 @@ const driverTrips = [
     id: 1,
     route: 'NTU@one-north to 910 Jurong West St 91',
     price: 31.40,
-    date: '8 Oct 2026, 18:05',
+    date: '08 Oct 2026, 06:04PM',
     status: 'completed',
     hasLightning: true,
+    bookingId: 'A-9UAXPJ4GX5JRAV',
+    driver: 'Passenger: Tan Tiong Heng',
+    service: 'Standard | Car or taxi',
+    distance: '15.72 km',
+    duration: '23 min',
+    pickup: { place: 'NTU@one-north', time: '6:15 PM' },
+    dropoff: { place: '910 Jurong West St 91', time: '6:39 PM' },
+    payment: { type: 'VISA', last4: '0518' },
   },
   {
     id: 2,
     route: 'Sengkang to China St Pick-up (Next to China Square Central carpark)',
     price: 44.98,
-    date: '30 Sep 2026, 23:39',
+    date: '30 Sep 2026, 11:39PM',
     status: 'completed',
     hasLightning: false,
+    bookingId: 'A-7KPLM2NQW8VXTE',
+    driver: 'Passenger: Lim Ah Kow',
+    service: 'Standard | Car or taxi',
+    distance: '18.40 km',
+    duration: '31 min',
+    pickup: { place: 'Sengkang', time: '11:39 PM' },
+    dropoff: { place: 'China St Pick-up', time: '12:10 AM' },
+    payment: { type: 'VISA', last4: '4242' },
   },
   {
     id: 3,
     route: 'Blu Jaz - Pekin Street to Lobby, INSEAD',
     price: 25.90,
-    date: '30 Sep 2026, 22:03',
+    date: '30 Sep 2026, 10:03PM',
     status: 'completed',
     hasLightning: true,
+    bookingId: 'A-3BHFJ9DKL2PQRT',
+    driver: 'Passenger: Sarah Tan',
+    service: 'Standard | Car or taxi',
+    distance: '6.80 km',
+    duration: '14 min',
+    pickup: { place: 'Blu Jaz - Pekin Street', time: '10:03 PM' },
+    dropoff: { place: 'Lobby, INSEAD', time: '10:17 PM' },
+    payment: { type: 'VISA', last4: '0518' },
   },
   {
     id: 4,
     route: '910 Jurong West St 91 to Lobby, INSEAD',
     price: null,
-    date: '30 Sep 2026, 22:00',
+    date: '30 Sep 2026, 10:00PM',
     status: 'cancelled',
     hasLightning: false,
+    bookingId: 'A-5CMXW1ZYP9NBVD',
+    driver: 'Not assigned',
+    service: 'Standard | Car or taxi',
+    distance: '0.00 km',
+    duration: '0 min',
+    pickup: { place: '910 Jurong West St 91', time: '10:00 PM' },
+    dropoff: { place: 'Lobby, INSEAD', time: '—' },
+    payment: { type: 'VISA', last4: '0518' },
   },
   {
     id: 5,
     route: 'Graduate Hall, NUS to North Bridge Rd Entrance, Funan Mall',
     price: 73.60,
-    date: '28 Sep 2026, 03:11',
+    date: '28 Sep 2026, 03:11AM',
     status: 'completed',
     hasLightning: false,
+    bookingId: 'A-2QWER4TYUI7OPA',
+    driver: 'Passenger: Muhammad Faizal',
+    service: 'Standard | Car or taxi',
+    distance: '22.50 km',
+    duration: '28 min',
+    pickup: { place: 'Graduate Hall, NUS', time: '3:11 AM' },
+    dropoff: { place: 'North Bridge Rd Entrance, Funan Mall', time: '3:39 AM' },
+    payment: { type: 'VISA', last4: '8888' },
   },
   {
     id: 6,
     route: 'Pure K 纯K - Funan Mall to Lobby, MBS Hotel Tower 3',
     price: 14.00,
-    date: '27 Sep 2026, 23:48',
+    date: '27 Sep 2026, 11:48PM',
     status: 'completed',
     hasLightning: false,
+    bookingId: 'A-8ZXCV1BNMA3SDF',
+    driver: 'Passenger: Koh Wei Ling',
+    service: 'Standard | Car or taxi',
+    distance: '4.20 km',
+    duration: '9 min',
+    pickup: { place: 'Pure K 纯K - Funan Mall', time: '11:48 PM' },
+    dropoff: { place: 'Lobby, MBS Hotel Tower 3', time: '11:57 PM' },
+    payment: { type: 'VISA', last4: '1234' },
   },
 ]
 
@@ -204,6 +300,84 @@ function SwapIcon({ className = 'w-4 h-4' }) {
   )
 }
 
+function ChevronLeftIcon({ className = 'w-6 h-6' }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M15 18l-6-6 6-6" />
+    </svg>
+  )
+}
+
+function ChevronDownIcon({ className = 'w-5 h-5' }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M6 9l6 6 6-6" />
+    </svg>
+  )
+}
+
+function ChevronRightIcon({ className = 'w-5 h-5' }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M9 18l6-6-6-6" />
+    </svg>
+  )
+}
+
+function StarIcon({ className = 'w-8 h-8' }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+    </svg>
+  )
+}
+
+function CopyIcon({ className = 'w-5 h-5' }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+      <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
+    </svg>
+  )
+}
+
+function DownloadIcon({ className = 'w-6 h-6' }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+      <polyline points="7 10 12 15 17 10" />
+      <line x1="12" y1="15" x2="12" y2="3" />
+    </svg>
+  )
+}
+
+function HeadsetIcon({ className = 'w-6 h-6' }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M3 18v-6a9 9 0 0118 0v6" />
+      <path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z" />
+    </svg>
+  )
+}
+
+function RedoIcon({ className = 'w-6 h-6' }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 7v6h-6" />
+      <path d="M3 17a9 9 0 019-9 9 9 0 016.24 2.5L21 13" />
+    </svg>
+  )
+}
+
+function MapPinIcon({ className = 'w-5 h-5', color = 'currentColor' }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill={color} stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
+      <circle cx="12" cy="10" r="3" fill="white" />
+    </svg>
+  )
+}
+
 /* ---------- Components ---------- */
 
 function StatusBar() {
@@ -266,7 +440,6 @@ function ActionButton({ label, variant, onClick }) {
   const variants = {
     rate: 'text-brand-green hover:bg-brand-lightGreen',
     rebook: 'text-brand-blue hover:bg-blue-50',
-    advocate: 'text-brand-indigo hover:bg-indigo-50',
   }
 
   return (
@@ -280,11 +453,14 @@ function ActionButton({ label, variant, onClick }) {
   )
 }
 
-function TripCard({ trip, onAction }) {
+function TripCard({ trip, onAction, onSelect }) {
   const isCancelled = trip.status === 'cancelled'
 
   return (
-    <div className="px-5 py-4">
+    <div
+      className="cursor-pointer px-5 py-4 transition active:bg-gray-50"
+      onClick={() => onSelect(trip)}
+    >
       <div className="flex gap-4">
         <TripIcon hasLightning={trip.hasLightning} />
 
@@ -311,16 +487,245 @@ function TripCard({ trip, onAction }) {
             <ActionButton
               label="Rate & tip"
               variant="rate"
-              onClick={() => onAction('Rate & tip', trip.route)}
+              onClick={(e) => {
+                e.stopPropagation()
+                onAction('Rate & tip', trip.route)
+              }}
             />
             <ActionButton
               label="Rebook"
               variant="rebook"
-              onClick={() => onAction('Rebook', trip.route)}
+              onClick={(e) => {
+                e.stopPropagation()
+                onAction('Rebook', trip.route)
+              }}
             />
           </div>
         </div>
       </div>
+    </div>
+  )
+}
+
+function DetailHeader({ date, onBack }) {
+  return (
+    <div className="flex items-center px-5 py-3">
+      <button
+        onClick={onBack}
+        className="flex h-9 w-9 items-center justify-center rounded-full text-gray-800 transition hover:bg-gray-100"
+      >
+        <ChevronLeftIcon className="w-6 h-6" />
+      </button>
+      <div className="flex flex-1 items-center justify-center gap-1">
+        <span className="text-base font-bold text-gray-900">{date}</span>
+        <ChevronDownIcon className="w-4 h-4 text-gray-500" />
+      </div>
+      <div className="w-9" />
+    </div>
+  )
+}
+
+function BookingIdRow({ id, onCopy }) {
+  return (
+    <div className="flex items-center justify-between px-5 py-3">
+      <span className="text-gray-500">Booking ID</span>
+      <button
+        onClick={onCopy}
+        className="flex items-center gap-1.5 text-sm font-semibold text-gray-900 transition hover:text-brand-green"
+      >
+        {id}
+        <CopyIcon className="w-4 h-4 text-gray-400" />
+      </button>
+    </div>
+  )
+}
+
+function RatingCard() {
+  return (
+    <div className="mx-5 rounded-2xl border border-gray-200 bg-white p-4">
+      <p className="text-sm leading-relaxed text-gray-700">
+        Help us improve your Grab experience by rating this ride.
+      </p>
+      <div className="mt-3 flex justify-center gap-2">
+        {[1, 2, 3, 4, 5].map((star) => (
+          <button key={star} className="text-gray-300 transition hover:text-yellow-400">
+            <StarIcon className="w-8 h-8" />
+          </button>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function DriverRow({ name }) {
+  const initials = name
+    .split(' ')
+    .map((n) => n[0])
+    .slice(0, 2)
+    .join('')
+    .toUpperCase()
+
+  return (
+    <div className="flex items-center gap-3 px-5 py-4">
+      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-blue-400 to-purple-500 text-sm font-bold text-white">
+        {initials || '?'}
+      </div>
+      <span className="font-semibold text-gray-900">{name}</span>
+    </div>
+  )
+}
+
+function MapPlaceholder() {
+  return (
+    <svg className="h-full w-full" viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice">
+      {/* Water */}
+      <rect width="400" height="200" fill="#E0F2FE" />
+      {/* Land masses */}
+      <path d="M-20,140 Q60,110 130,130 T260,115 T420,145 V220 H-20 Z" fill="#DCFCE7" />
+      <path d="M260,-20 Q300,40 280,100 T320,220 H420 V-20 Z" fill="#DCFCE7" />
+      {/* Roads */}
+      <path d="M-10,80 Q80,85 140,75 T260,90 T410,70" fill="none" stroke="white" strokeWidth="3" />
+      <path d="M50,-10 Q60,60 55,120 T70,210" fill="none" stroke="white" strokeWidth="2" />
+      {/* Route */}
+      <path
+        d="M80,60 C120,55 150,110 210,115 S290,150 340,135"
+        fill="none"
+        stroke="#00B14F"
+        strokeWidth="6"
+        strokeLinecap="round"
+      />
+      {/* Pins */}
+      <g transform="translate(80,60)">
+        <circle r="14" fill="#3B82F6" stroke="white" strokeWidth="2" />
+        <circle r="5" fill="white" />
+      </g>
+      <g transform="translate(340,135)">
+        <circle r="14" fill="#EF4444" stroke="white" strokeWidth="2" />
+        <circle r="5" fill="white" />
+      </g>
+      {/* Watermark */}
+      <text x="10" y="190" fontSize="10" fill="#64748B" fontFamily="sans-serif">
+        GrabMaps
+      </text>
+    </svg>
+  )
+}
+
+function LocationRow({ type, place, time }) {
+  return (
+    <div className="flex gap-3 py-2">
+      <div className="mt-0.5 flex-shrink-0">
+        {type === 'pickup' ? (
+          <MapPinIcon className="w-5 h-5" color="#3B82F6" />
+        ) : (
+          <MapPinIcon className="w-5 h-5" color="#EF4444" />
+        )}
+      </div>
+      <div>
+        <p className="font-semibold text-gray-900">{place}</p>
+        <p className="text-sm text-gray-500">{time}</p>
+      </div>
+    </div>
+  )
+}
+
+function MapCard({ trip }) {
+  return (
+    <div className="mx-5 overflow-hidden rounded-2xl border border-gray-200 bg-white">
+      <div className="relative h-48 w-full bg-blue-50">
+        <MapPlaceholder />
+      </div>
+      <div className="flex items-center justify-between px-4 py-3">
+        <span className="text-sm font-semibold text-gray-800">{trip.service}</span>
+        <span className="text-sm text-gray-500">
+          {trip.distance} · {trip.duration}
+        </span>
+      </div>
+      <div className="border-t border-gray-100 px-4 py-3">
+        <LocationRow type="pickup" place={trip.pickup.place} time={trip.pickup.time} />
+        <LocationRow type="dropoff" place={trip.dropoff.place} time={trip.dropoff.time} />
+      </div>
+    </div>
+  )
+}
+
+function PaymentCard({ payment }) {
+  return (
+    <div className="mx-5 flex items-center gap-3 rounded-2xl border border-gray-200 bg-white px-4 py-3">
+      <div className="flex h-8 w-12 items-center justify-center rounded-md bg-blue-900 text-xs font-bold text-white">
+        VISA
+      </div>
+      <span className="font-semibold text-gray-900">{payment.last4}</span>
+    </div>
+  )
+}
+
+function TotalRow({ price }) {
+  return (
+    <button className="mx-5 flex items-center justify-between rounded-2xl border border-gray-200 bg-white px-4 py-4 transition hover:bg-gray-50">
+      <span className="text-lg font-semibold text-gray-900">Total</span>
+      <div className="flex items-center gap-1 text-lg font-bold text-gray-900">
+        S${price.toFixed(2)}
+        <ChevronRightIcon className="w-5 h-5 text-gray-400" />
+      </div>
+    </button>
+  )
+}
+
+function DetailActionRow({ icon, label, onClick }) {
+  return (
+    <button
+      onClick={onClick}
+      className="flex w-full items-center justify-between border-b border-gray-100 px-4 py-4 transition hover:bg-gray-50 last:border-0"
+    >
+      <div className="flex items-center gap-3">
+        <div className="text-gray-700">{icon}</div>
+        <span className="font-semibold text-gray-900">{label}</span>
+      </div>
+      <ChevronRightIcon className="w-5 h-5 text-gray-400" />
+    </button>
+  )
+}
+
+function DetailActionList({ onExport, onReport, onRebook }) {
+  return (
+    <div className="mx-5 overflow-hidden rounded-2xl border border-gray-200 bg-white">
+      <DetailActionRow icon={<DownloadIcon className="w-6 h-6" />} label="Export receipt" onClick={onExport} />
+      <DetailActionRow icon={<HeadsetIcon className="w-6 h-6" />} label="Report an issue" onClick={onReport} />
+      <DetailActionRow icon={<RedoIcon className="w-6 h-6" />} label="Rebook" onClick={onRebook} />
+    </div>
+  )
+}
+
+function TripDetail({ trip, onBack, onAction }) {
+  const isCancelled = trip.status === 'cancelled'
+
+  return (
+    <div className="h-[calc(100vh-120px)] overflow-y-auto pb-8 no-scrollbar sm:h-[680px]">
+      <DetailHeader date={trip.date} onBack={onBack} />
+      <BookingIdRow
+        id={trip.bookingId}
+        onCopy={() => onAction('Copied booking ID', trip.bookingId)}
+      />
+      {!isCancelled && <RatingCard />}
+      <DriverRow name={trip.driver} />
+      <MapCard trip={trip} />
+      <div className="mt-4">
+        <PaymentCard payment={trip.payment} />
+      </div>
+      {!isCancelled && (
+        <div className="mt-4">
+          <TotalRow price={trip.price} />
+        </div>
+      )}
+      <div className="mt-4">
+        <DetailActionList
+          onExport={() => onAction('Export receipt', trip.route)}
+          onReport={() => onAction('Report an issue', trip.route)}
+          onRebook={() => onAction('Rebook', trip.route)}
+        />
+      </div>
+      <div className="h-6" />
     </div>
   )
 }
@@ -379,6 +784,7 @@ function Toast({ message, onClose }) {
 function App() {
   const [toast, setToast] = useState(null)
   const [role, setRole] = useState('rider')
+  const [selectedTrip, setSelectedTrip] = useState(null)
 
   const handleAction = (action, route) => {
     setToast(`${action}: ${route}`)
@@ -387,6 +793,7 @@ function App() {
 
   const handleToggle = () => {
     setRole((prev) => (prev === 'rider' ? 'driver' : 'rider'))
+    setSelectedTrip(null)
   }
 
   const trips = role === 'rider' ? riderTrips : driverTrips
@@ -395,19 +802,36 @@ function App() {
     <div className="flex min-h-screen items-center justify-center bg-gray-100 p-0 sm:p-6">
       <div className="relative w-full max-w-md overflow-hidden bg-white sm:min-h-[800px] sm:rounded-[2.5rem] sm:shadow-soft">
         <StatusBar />
-        <Header role={role} onToggle={handleToggle} />
 
-        <h2 className="px-5 pb-2 pt-1 text-lg font-bold text-gray-900">
-          {role === 'rider' ? 'Recent' : 'Recent Drives'}
-        </h2>
+        {selectedTrip ? (
+          <TripDetail
+            trip={selectedTrip}
+            onBack={() => setSelectedTrip(null)}
+            onAction={handleAction}
+          />
+        ) : (
+          <>
+            <Header role={role} onToggle={handleToggle} />
 
-        <div className="h-[calc(100vh-220px)] overflow-y-auto pb-28 no-scrollbar sm:h-[600px]">
-          {trips.map((trip) => (
-            <TripCard key={trip.id} trip={trip} onAction={handleAction} />
-          ))}
-        </div>
+            <h2 className="px-5 pb-2 pt-1 text-lg font-bold text-gray-900">
+              {role === 'rider' ? 'Recent' : 'Recent Drives'}
+            </h2>
 
-        <BottomNav />
+            <div className="h-[calc(100vh-220px)] overflow-y-auto pb-28 no-scrollbar sm:h-[600px]">
+              {trips.map((trip) => (
+                <TripCard
+                  key={trip.id}
+                  trip={trip}
+                  onAction={handleAction}
+                  onSelect={setSelectedTrip}
+                />
+              ))}
+            </div>
+
+            <BottomNav />
+          </>
+        )}
+
         <Toast message={toast} onClose={() => setToast(null)} />
       </div>
     </div>
