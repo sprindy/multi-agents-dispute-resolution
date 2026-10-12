@@ -9,7 +9,7 @@ import React, { useState } from 'react'
     - Advocate
 */
 
-const trips = [
+const riderTrips = [
   {
     id: 1,
     route: '910 Jurong West St 91 to NTU@one-north',
@@ -53,6 +53,57 @@ const trips = [
   {
     id: 6,
     route: 'Lobby, MBS Hotel Tower 3 to Pure K 纯K - Funan Mall',
+    price: 14.00,
+    date: '27 Sep 2026, 23:48',
+    status: 'completed',
+    hasLightning: false,
+  },
+]
+
+const driverTrips = [
+  {
+    id: 1,
+    route: 'NTU@one-north to 910 Jurong West St 91',
+    price: 31.40,
+    date: '8 Oct 2026, 18:05',
+    status: 'completed',
+    hasLightning: true,
+  },
+  {
+    id: 2,
+    route: 'Sengkang to China St Pick-up (Next to China Square Central carpark)',
+    price: 44.98,
+    date: '30 Sep 2026, 23:39',
+    status: 'completed',
+    hasLightning: false,
+  },
+  {
+    id: 3,
+    route: 'Blu Jaz - Pekin Street to Lobby, INSEAD',
+    price: 25.90,
+    date: '30 Sep 2026, 22:03',
+    status: 'completed',
+    hasLightning: true,
+  },
+  {
+    id: 4,
+    route: '910 Jurong West St 91 to Lobby, INSEAD',
+    price: null,
+    date: '30 Sep 2026, 22:00',
+    status: 'cancelled',
+    hasLightning: false,
+  },
+  {
+    id: 5,
+    route: 'Graduate Hall, NUS to North Bridge Rd Entrance, Funan Mall',
+    price: 73.60,
+    date: '28 Sep 2026, 03:11',
+    status: 'completed',
+    hasLightning: false,
+  },
+  {
+    id: 6,
+    route: 'Pure K 纯K - Funan Mall to Lobby, MBS Hotel Tower 3',
     price: 14.00,
     date: '27 Sep 2026, 23:48',
     status: 'completed',
@@ -133,6 +184,26 @@ function MessageIcon({ className = 'w-6 h-6' }) {
   )
 }
 
+function PersonIcon({ className = 'w-5 h-5' }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="8" r="4" />
+      <path d="M4 20c0-4 4-6 8-6s8 2 8 6" />
+    </svg>
+  )
+}
+
+function SwapIcon({ className = 'w-4 h-4' }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M7 10l-4-4 4-4" />
+      <path d="M3 6h13a4 4 0 014 4" />
+      <path d="M17 14l4 4-4 4" />
+      <path d="M21 18H8a4 4 0 01-4-4" />
+    </svg>
+  )
+}
+
 /* ---------- Components ---------- */
 
 function StatusBar() {
@@ -153,14 +224,25 @@ function StatusBar() {
   )
 }
 
-function Header() {
+function Header({ role, onToggle }) {
   return (
     <div className="flex items-center justify-between px-5 py-3">
       <h1 className="text-3xl font-bold tracking-tight text-gray-900">Activity</h1>
-      <button className="flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm transition hover:bg-gray-50">
-        <ClockIcon className="w-4 h-4" />
-        History
-      </button>
+      <div className="flex items-center gap-2">
+        <button
+          onClick={onToggle}
+          className="flex items-center gap-2 rounded-full border border-gray-200 bg-white px-3 py-2 text-sm font-semibold text-gray-700 shadow-sm transition hover:bg-gray-50 active:scale-95"
+          title={`Switch to ${role === 'rider' ? 'driver' : 'rider'}`}
+        >
+          <PersonIcon className="w-5 h-5" />
+          <span className="capitalize">{role}</span>
+          <SwapIcon className="w-4 h-4 text-gray-400" />
+        </button>
+        <button className="flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm transition hover:bg-gray-50">
+          <ClockIcon className="w-4 h-4" />
+          History
+        </button>
+      </div>
     </div>
   )
 }
@@ -301,19 +383,28 @@ function Toast({ message, onClose }) {
 
 function App() {
   const [toast, setToast] = useState(null)
+  const [role, setRole] = useState('rider')
 
   const handleAction = (action, route) => {
     setToast(`${action}: ${route}`)
     setTimeout(() => setToast(null), 3000)
   }
 
+  const handleToggle = () => {
+    setRole((prev) => (prev === 'rider' ? 'driver' : 'rider'))
+  }
+
+  const trips = role === 'rider' ? riderTrips : driverTrips
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100 p-0 sm:p-6">
       <div className="relative w-full max-w-md overflow-hidden bg-white sm:min-h-[800px] sm:rounded-[2.5rem] sm:shadow-soft">
         <StatusBar />
-        <Header />
+        <Header role={role} onToggle={handleToggle} />
 
-        <h2 className="px-5 pb-2 pt-1 text-lg font-bold text-gray-900">Recent</h2>
+        <h2 className="px-5 pb-2 pt-1 text-lg font-bold text-gray-900">
+          {role === 'rider' ? 'Recent' : 'Recent Drives'}
+        </h2>
 
         <div className="h-[calc(100vh-220px)] overflow-y-auto pb-28 no-scrollbar sm:h-[600px]">
           {trips.map((trip) => (
