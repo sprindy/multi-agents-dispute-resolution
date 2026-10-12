@@ -318,11 +318,6 @@ function TripCard({ trip, onAction }) {
               variant="rebook"
               onClick={() => onAction('Rebook', trip.route)}
             />
-            <ActionButton
-              label="Advocate"
-              variant="advocate"
-              onClick={() => onAction('Advocate', trip.route)}
-            />
           </div>
         </div>
       </div>
