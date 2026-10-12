@@ -1,0 +1,226 @@
+{
+  "rider_trips": [
+    {
+      "trip_id": "20261011-180500-000001",
+      "rider_name": "Rider123",
+      "driver_name": "Aaron Tan",
+      "datetime_sgt": "2026-10-11 18:04:59.999000",
+      "pickup": "Jurong West St 91",
+      "destination": "NTU@one-north",
+      "status": "Completed",
+      "amount_sgd": 31.4,
+      "chat_history": "18:05 Rider123: I am at the pickup point on Jurong West St 91.\n18:06 Aaron Tan: Okay, we will head to NTU@one-north.\n18:17 Rider123: Why are we leaving the expressway?\n18:18 Aaron Tan: This route is faster.\n18:21 Rider123: Why have we stopped here?\n18:22 Aaron Tan: We will continue shortly.\n18:39 Rider123: The fare is S$31.40, but the quote was S$27.00."
+    },
+    {
+      "trip_id": "20261010-220000-000002",
+      "rider_name": "Rider123",
+      "driver_name": "Marcus Lim",
+      "datetime_sgt": "2026-10-10 22:00:00",
+      "pickup": "INSEAD Lobby",
+      "destination": "Jurong West St 91",
+      "status": "Cancelled - no-show",
+      "amount_sgd": 5.0,
+      "chat_history": "22:00 Rider123: I am waiting at the INSEAD lobby.\n22:04 Marcus Lim: I have marked myself as arrived.\n22:05 Rider123: I'm at the lobby. Where are you?\n22:06 Marcus Lim: Walk to the main road.\n22:07 Rider123: The booking pickup is the lobby. Please come here.\n22:08 Marcus Lim: I am waiting on the main road.\n22:10 Rider123: The booking was cancelled and I was charged S$5.00."
+    },
+    {
+      "trip_id": "20261009-192000-000003",
+      "rider_name": "Rider123",
+      "driver_name": "Daniel Ng",
+      "datetime_sgt": "2026-10-09 19:20:00",
+      "pickup": "VivoCity",
+      "destination": "Tampines Mall",
+      "status": "Completed",
+      "amount_sgd": 34.8,
+      "chat_history": "19:20 Rider123: Please take me to Tampines Mall.\n19:21 Daniel Ng: Okay, I will follow the recommended route.\n19:28 Daniel Ng: Road ahead is closed; taking another exit.\n19:29 Rider123: Okay, understood.\n19:30 Daniel Ng: The detour will add some distance and time.\n19:59 Rider123: The fare is S$34.80 instead of S$30.50.\n20:00 Daniel Ng: The road closure caused the longer journey."
+    },
+    {
+      "trip_id": "20261008-083000-000004",
+      "rider_name": "Rider123",
+      "driver_name": "Ryan Goh",
+      "datetime_sgt": "2026-10-08 08:30:00",
+      "pickup": "Toa Payoh Hub",
+      "destination": "Raffles Place",
+      "status": "Cancelled - no-show",
+      "amount_sgd": 4.0,
+      "chat_history": "08:30 Rider123: I am heading to the pickup point.\n08:35 Ryan Goh: I'm at the designated pickup point.\n08:36 Rider123: I am still walking over.\n08:37 Ryan Goh: Please let me know how long you need.\n08:38 Rider123: Still walking over. Please wait.\n08:39 Ryan Goh: I have been waiting since 08:34.\n08:41 Rider123: I see the cancellation and S$4.00 fee."
+    },
+    {
+      "trip_id": "20261007-231500-000005",
+      "rider_name": "Rider123",
+      "driver_name": "Jason Lee",
+      "datetime_sgt": "2026-10-07 23:15:00",
+      "pickup": "Marina Bay Sands",
+      "destination": "Funan Mall",
+      "status": "Completed",
+      "amount_sgd": 18.6,
+      "chat_history": "23:15 Rider123: Please take me directly to Funan Mall.\n23:16 Jason Lee: Okay.\n23:21 Jason Lee: I need to collect something quickly.\n23:22 Rider123: Please go straight to Funan.\n23:23 Rider123: I did not agree to this stop.\n23:26 Jason Lee: We are moving again now.\n23:34 Rider123: The fare is S$18.60. The original quote was S$13.00."
+    },
+    {
+      "trip_id": "20261006-174500-000006",
+      "rider_name": "Rider123",
+      "driver_name": "Benjamin Chua",
+      "datetime_sgt": "2026-10-06 17:45:00",
+      "pickup": "NEX",
+      "destination": "Changi Airport Terminal 3",
+      "status": "Cancelled - no-show",
+      "amount_sgd": 5.0,
+      "chat_history": "17:45 Rider123: I am at the NEX south entrance.\n17:49 Benjamin Chua: I have arrived at the north entrance.\n17:50 Rider123: My booking says south entrance.\n17:51 Benjamin Chua: I'm at north. Come here.\n17:52 Rider123: Please drive to the booked pickup point.\n17:53 Benjamin Chua: I am still waiting at north.\n17:55 Rider123: The booking was cancelled and I was charged S$5.00."
+    },
+    {
+      "trip_id": "20261005-091000-000007",
+      "rider_name": "Rider123",
+      "driver_name": "Adrian Koh",
+      "datetime_sgt": "2026-10-05 09:10:00",
+      "pickup": "Clementi Mall",
+      "destination": "NUS Business School",
+      "status": "Completed",
+      "amount_sgd": 15.2,
+      "chat_history": "09:10 Rider123: Please take me to NUS Business School.\n09:11 Adrian Koh: Okay, we are on our way.\n09:14 Rider123: Please use the entrance near the business school.\n09:15 Adrian Koh: That adds some distance.\n09:15 Rider123: That's fine.\n09:26 Rider123: The fare is S$15.20 rather than S$12.80.\n09:27 Adrian Koh: We used the alternative entrance you requested."
+    },
+    {
+      "trip_id": "20261004-204000-000008",
+      "rider_name": "Rider123",
+      "driver_name": "Kelvin Wong",
+      "datetime_sgt": "2026-10-04 20:40:00",
+      "pickup": "Bugis Junction",
+      "destination": "Woodlands MRT",
+      "status": "Cancelled - no-show",
+      "amount_sgd": 4.0,
+      "chat_history": "20:40 Kelvin Wong: I am on my way to the pickup point.\n20:45 Kelvin Wong: At the pickup point.\n20:47 Kelvin Wong: I tried calling. Please let me know where you are.\n20:49 Kelvin Wong: I tried calling again but could not reach you.\n20:50 Kelvin Wong: Are you coming?\n20:53 Rider123: Sorry, just saw this.\n20:54 Rider123: Why was I charged S$4.00 for the cancellation?"
+    },
+    {
+      "trip_id": "20261003-142500-000009",
+      "rider_name": "Rider123",
+      "driver_name": "Farhan Rahman",
+      "datetime_sgt": "2026-10-03 14:25:00",
+      "pickup": "Orchard Central",
+      "destination": "Jewel Changi Airport",
+      "status": "Completed",
+      "amount_sgd": 38.5,
+      "chat_history": "14:25 Rider123: Please take me to Jewel Changi Airport.\n14:26 Farhan Rahman: Okay.\n14:33 Farhan Rahman: Accident on the expressway; taking an alternative.\n14:34 Rider123: Will it cost more?\n14:34 Farhan Rahman: The fare stays the same.\n14:58 Rider123: We travelled farther. Can the fare be reduced?\n14:59 Farhan Rahman: The charged S$38.50 matches your original fixed quote."
+    },
+    {
+      "trip_id": "20261002-075500-000010",
+      "rider_name": "Rider123",
+      "driver_name": "Arjun Nair",
+      "datetime_sgt": "2026-10-02 07:55:00",
+      "pickup": "Punggol Waterway Point",
+      "destination": "Suntec City",
+      "status": "Cancelled - no-show",
+      "amount_sgd": 5.0,
+      "chat_history": "07:55 Rider123: I am preparing to come down to the pickup point.\n07:59 Arjun Nair: I have arrived near the booked pickup point.\n08:00 Rider123: Coming down now, one minute.\n08:00 Arjun Nair: Okay.\n08:01 Rider123: I am approaching the car. Please wait.\n08:02 Rider123: The booking was cancelled and I was charged S$5.00.\n08:03 Rider123: You agreed to wait, and I was almost there."
+    }
+  ],
+  "driver_trips": [
+    {
+      "trip_id": "20261011-183000-582194",
+      "rider_name": "Emily Tan",
+      "driver_name": "Driver123",
+      "datetime_sgt": "2026-10-11 18:30:00",
+      "pickup": "ION Orchard",
+      "destination": "Paya Lebar Quarter",
+      "status": "Completed",
+      "amount_sgd": 30.5,
+      "chat_history": "18:30 Emily Tan: I am at the ION Orchard pickup point.\n18:31 Driver123: Okay, heading to Paya Lebar Quarter.\n18:39 Driver123: The road ahead is closed. I need to take another route.\n18:40 Emily Tan: Okay, please keep going.\n18:41 Driver123: It will add some distance and time.\n18:58 Emily Tan: The fare is S$30.50 instead of S$27.20.\n18:59 Driver123: The detour was needed because of the road closure."
+    },
+    {
+      "trip_id": "20261010-214500-739062",
+      "rider_name": "Marcus Lee",
+      "driver_name": "Driver123",
+      "datetime_sgt": "2026-10-10 21:45:00",
+      "pickup": "Clarke Quay Central",
+      "destination": "Ang Mo Kio Hub",
+      "status": "Cancelled - no-show",
+      "amount_sgd": 5.0,
+      "chat_history": "21:45 Driver123: I am on my way to the booked pickup point.\n21:49 Driver123: I have arrived outside Clarke Quay Central.\n21:50 Marcus Lee: I am still inside. Give me ten minutes.\n21:51 Driver123: Please come to the pickup point when you can.\n21:54 Driver123: Are you coming out now?\n21:55 Marcus Lee: I need a few more minutes.\n21:57 Marcus Lee: Why was the booking cancelled with a S$5.00 fee?"
+    },
+    {
+      "trip_id": "20261009-170000-416835",
+      "rider_name": "Priya Menon",
+      "driver_name": "Driver123",
+      "datetime_sgt": "2026-10-09 17:00:00",
+      "pickup": "Bishan Junction 8",
+      "destination": "Novena Square",
+      "status": "Completed",
+      "amount_sgd": 24.6,
+      "chat_history": "17:00 Priya Menon: Please take me to Novena Square.\n17:01 Driver123: Okay.\n17:06 Priya Menon: Can we stop at the grocery store on the way?\n17:07 Driver123: That will add distance and waiting time.\n17:07 Priya Menon: Okay, I agree.\n17:26 Priya Menon: The final fare is higher than the original quote.\n17:27 Driver123: The extra stop and waiting time increased the fare."
+    },
+    {
+      "trip_id": "20261008-081000-905271",
+      "rider_name": "Daniel Lim",
+      "driver_name": "Driver123",
+      "datetime_sgt": "2026-10-08 08:10:00",
+      "pickup": "HarbourFront Centre South Entrance",
+      "destination": "Raffles Place",
+      "status": "Cancelled - no-show",
+      "amount_sgd": 4.0,
+      "chat_history": "08:10 Daniel Lim: I am waiting at the south entrance.\n08:14 Driver123: I have arrived at the north entrance.\n08:15 Daniel Lim: The booking pickup is the south entrance.\n08:16 Driver123: I thought the north entrance was correct.\n08:17 Daniel Lim: Please come to the south entrance.\n08:18 Driver123: I am still at the north entrance.\n08:20 Daniel Lim: I was charged S$4.00 even though you did not come here."
+    },
+    {
+      "trip_id": "20261007-231000-268493",
+      "rider_name": "Nur Aisyah",
+      "driver_name": "Driver123",
+      "datetime_sgt": "2026-10-07 23:10:00",
+      "pickup": "Bugis Junction",
+      "destination": "Bedok Mall",
+      "status": "Completed",
+      "amount_sgd": 29.8,
+      "chat_history": "23:10 Nur Aisyah: Please take me directly to Bedok Mall.\n23:11 Driver123: Okay, following the navigation app.\n23:18 Nur Aisyah: This looks like a longer route.\n23:19 Driver123: The app directed me this way.\n23:20 Nur Aisyah: Is there a road closure?\n23:21 Driver123: I do not have a closure alert.\n23:39 Nur Aisyah: The fare is S$29.80 rather than the S$24.00 quote."
+    },
+    {
+      "trip_id": "20261006-074000-651807",
+      "rider_name": "Kevin Ong",
+      "driver_name": "Driver123",
+      "datetime_sgt": "2026-10-06 07:40:00",
+      "pickup": "Tampines MRT",
+      "destination": "Changi Business Park",
+      "status": "Cancelled - no-show",
+      "amount_sgd": 5.0,
+      "chat_history": "07:40 Kevin Ong: I am heading to the Tampines MRT pickup point.\n07:44 Driver123: I have arrived.\n07:45 Kevin Ong: One minute please, I am nearly there.\n07:45 Driver123: Okay, I will wait.\n07:46 Kevin Ong: I can see the pickup area now.\n07:47 Kevin Ong: The booking was cancelled with a S$5.00 fee.\n07:48 Driver123: I left before you reached the car."
+    },
+    {
+      "trip_id": "20261005-121500-374926",
+      "rider_name": "Sofia Chen",
+      "driver_name": "Driver123",
+      "datetime_sgt": "2026-10-05 12:15:00",
+      "pickup": "National Library",
+      "destination": "Singapore Botanic Gardens",
+      "status": "Completed",
+      "amount_sgd": 18.4,
+      "chat_history": "12:15 Sofia Chen: Please take me to Singapore Botanic Gardens.\n12:16 Driver123: Okay.\n12:23 Driver123: There is a collision ahead. Taking an alternative route.\n12:24 Sofia Chen: Will the fare increase?\n12:24 Driver123: No, the fixed fare stays S$18.40.\n12:37 Sofia Chen: The journey was longer than expected.\n12:38 Driver123: The charged fare still matches the original fixed quote."
+    },
+    {
+      "trip_id": "20261004-202000-829154",
+      "rider_name": "Hafiz Abdullah",
+      "driver_name": "Driver123",
+      "datetime_sgt": "2026-10-04 20:19:59.999000",
+      "pickup": "JEM Pickup Point",
+      "destination": "Bukit Panjang Plaza",
+      "status": "Cancelled - no-show",
+      "amount_sgd": 5.0,
+      "chat_history": "20:20 Driver123: I am heading to the JEM pickup point.\n20:24 Driver123: I have arrived at the booked pickup point.\n20:26 Driver123: I tried calling. Where are you?\n20:29 Driver123: I tried calling again but could not reach you.\n20:30 Driver123: Are you coming?\n20:33 Hafiz Abdullah: Sorry, my phone was on silent.\n20:34 Hafiz Abdullah: Can the S$5.00 cancellation fee be reviewed?"
+    },
+    {
+      "trip_id": "20261003-153000-593618",
+      "rider_name": "Rachel Teo",
+      "driver_name": "Driver123",
+      "datetime_sgt": "2026-10-03 15:30:00",
+      "pickup": "Marina Square",
+      "destination": "East Coast Park",
+      "status": "Completed",
+      "amount_sgd": 22.8,
+      "chat_history": "15:30 Rachel Teo: Please take me to East Coast Park.\n15:31 Driver123: Okay.\n15:34 Rachel Teo: Can we take the scenic route along the coast?\n15:35 Driver123: That route is longer and may increase the fare.\n15:35 Rachel Teo: Yes, that is fine.\n15:55 Rachel Teo: The fare increased to S$22.80.\n15:56 Driver123: We followed the longer scenic route you requested."
+    },
+    {
+      "trip_id": "20261002-090500-147382",
+      "rider_name": "Arjun Mehta",
+      "driver_name": "Driver123",
+      "datetime_sgt": "2026-10-02 09:04:59.999000",
+      "pickup": "Woodlands Civic Centre",
+      "destination": "Khoo Teck Puat Hospital",
+      "status": "Cancelled - no-show",
+      "amount_sgd": 4.0,
+      "chat_history": "09:05 Arjun Mehta: I am waiting at Woodlands Civic Centre.\n09:10 Driver123: I am near the pickup point.\n09:11 Arjun Mehta: I cannot see your car.\n09:12 Driver123: My GPS connection is unstable.\n09:13 Arjun Mehta: Which entrance are you at?\n09:14 Driver123: I believe I am near the booked entrance.\n09:16 Arjun Mehta: The trip was cancelled and I was charged S$4.00."
+    }
+  ]
+}

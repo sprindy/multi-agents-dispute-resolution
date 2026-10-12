@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
+import tripsData from './trips-data.json'
 
 /*
   Travel History / Activity UI
@@ -8,205 +9,51 @@ import React, { useEffect, useRef, useState } from 'react'
     - Rebook
   Tapping a card opens a detailed trip view.
   "Report an issue" opens a Help Center chat.
+  Trip data is loaded from the SQLite database (exported as JSON).
 */
 
-const riderTrips = [
-  {
-    id: 1,
-    route: '910 Jurong West St 91 to NTU@one-north',
-    price: 31.40,
-    date: '08 Oct 2026, 06:04PM',
-    status: 'completed',
-    hasLightning: true,
-    bookingId: 'A-9UAXPJ4GX5JRAV',
-    driver: 'Tan Tiong Heng',
-    service: 'Standard | Car or taxi',
-    distance: '15.72 km',
-    duration: '23 min',
-    pickup: { place: '910 Jurong West St 91', time: '6:15 PM' },
-    dropoff: { place: 'NTU@one-north', time: '6:39 PM' },
-    payment: { type: 'VISA', last4: '0518' },
-  },
-  {
-    id: 2,
-    route: 'China St Pick-up (Next to China Square Central carpark) to Sengkang',
-    price: 44.98,
-    date: '30 Sep 2026, 11:39PM',
-    status: 'completed',
-    hasLightning: false,
-    bookingId: 'A-7KPLM2NQW8VXTE',
-    driver: 'Lim Ah Kow',
-    service: 'Standard | Car or taxi',
-    distance: '18.40 km',
-    duration: '31 min',
-    pickup: { place: 'China St Pick-up', time: '11:39 PM' },
-    dropoff: { place: 'Sengkang', time: '12:10 AM' },
-    payment: { type: 'VISA', last4: '4242' },
-  },
-  {
-    id: 3,
-    route: 'Lobby, INSEAD to Blu Jaz - Pekin Street',
-    price: 25.90,
-    date: '30 Sep 2026, 10:03PM',
-    status: 'completed',
-    hasLightning: true,
-    bookingId: 'A-3BHFJ9DKL2PQRT',
-    driver: 'Sarah Tan',
-    service: 'Standard | Car or taxi',
-    distance: '6.80 km',
-    duration: '14 min',
-    pickup: { place: 'Lobby, INSEAD', time: '10:03 PM' },
-    dropoff: { place: 'Blu Jaz - Pekin Street', time: '10:17 PM' },
-    payment: { type: 'VISA', last4: '0518' },
-  },
-  {
-    id: 4,
-    route: 'Lobby, INSEAD to 910 Jurong West St 91',
-    price: null,
-    date: '30 Sep 2026, 10:00PM',
-    status: 'cancelled',
-    hasLightning: false,
-    bookingId: 'A-5CMXW1ZYP9NBVD',
-    driver: 'Not assigned',
-    service: 'Standard | Car or taxi',
-    distance: '0.00 km',
-    duration: '0 min',
-    pickup: { place: 'Lobby, INSEAD', time: '10:00 PM' },
-    dropoff: { place: '910 Jurong West St 91', time: '—' },
-    payment: { type: 'VISA', last4: '0518' },
-  },
-  {
-    id: 5,
-    route: 'North Bridge Rd Entrance, Funan Mall to Graduate Hall, NUS',
-    price: 73.60,
-    date: '28 Sep 2026, 03:11AM',
-    status: 'completed',
-    hasLightning: false,
-    bookingId: 'A-2QWER4TYUI7OPA',
-    driver: 'Muhammad Faizal',
-    service: 'Standard | Car or taxi',
-    distance: '22.50 km',
-    duration: '28 min',
-    pickup: { place: 'North Bridge Rd Entrance, Funan Mall', time: '3:11 AM' },
-    dropoff: { place: 'Graduate Hall, NUS', time: '3:39 AM' },
-    payment: { type: 'VISA', last4: '8888' },
-  },
-  {
-    id: 6,
-    route: 'Lobby, MBS Hotel Tower 3 to Pure K 纯K - Funan Mall',
-    price: 14.00,
-    date: '27 Sep 2026, 11:48PM',
-    status: 'completed',
-    hasLightning: false,
-    bookingId: 'A-8ZXCV1BNMA3SDF',
-    driver: 'Koh Wei Ling',
-    service: 'Standard | Car or taxi',
-    distance: '4.20 km',
-    duration: '9 min',
-    pickup: { place: 'Lobby, MBS Hotel Tower 3', time: '11:48 PM' },
-    dropoff: { place: 'Pure K 纯K - Funan Mall', time: '11:57 PM' },
-    payment: { type: 'VISA', last4: '1234' },
-  },
-]
+/* ---------- Map DB rows to UI format ---------- */
 
-const driverTrips = [
-  {
-    id: 1,
-    route: 'NTU@one-north to 910 Jurong West St 91',
-    price: 31.40,
-    date: '08 Oct 2026, 06:04PM',
-    status: 'completed',
-    hasLightning: true,
-    bookingId: 'A-9UAXPJ4GX5JRAV',
-    driver: 'Passenger: Tan Tiong Heng',
+function formatDateTime(raw) {
+  if (!raw) return ''
+  const d = new Date(raw)
+  if (isNaN(d)) return raw
+  const day = d.getDate().toString().padStart(2, '0')
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+  const month = months[d.getMonth()]
+  const year = d.getFullYear()
+  let h = d.getHours()
+  const m = d.getMinutes().toString().padStart(2, '0')
+  const ampm = h >= 12 ? 'PM' : 'AM'
+  h = h % 12 || 12
+  return `${day} ${month} ${year}, ${h}:${m}${ampm}`
+}
+
+function mapTrip(row) {
+  const isCancelled = row.status && row.status.toLowerCase().includes('cancel')
+  return {
+    id: row.trip_id,
+    route: `${row.pickup} to ${row.destination}`,
+    price: isCancelled ? null : row.amount_sgd,
+    date: formatDateTime(row.datetime_sgt),
+    status: isCancelled ? 'cancelled' : 'completed',
+    hasLightning: !isCancelled,
+    bookingId: row.trip_id,
+    driver: row.driver_name,
     service: 'Standard | Car or taxi',
-    distance: '15.72 km',
-    duration: '23 min',
-    pickup: { place: 'NTU@one-north', time: '6:15 PM' },
-    dropoff: { place: '910 Jurong West St 91', time: '6:39 PM' },
-    payment: { type: 'VISA', last4: '0518' },
-  },
-  {
-    id: 2,
-    route: 'Sengkang to China St Pick-up (Next to China Square Central carpark)',
-    price: 44.98,
-    date: '30 Sep 2026, 11:39PM',
-    status: 'completed',
-    hasLightning: false,
-    bookingId: 'A-7KPLM2NQW8VXTE',
-    driver: 'Passenger: Lim Ah Kow',
-    service: 'Standard | Car or taxi',
-    distance: '18.40 km',
-    duration: '31 min',
-    pickup: { place: 'Sengkang', time: '11:39 PM' },
-    dropoff: { place: 'China St Pick-up', time: '12:10 AM' },
-    payment: { type: 'VISA', last4: '4242' },
-  },
-  {
-    id: 3,
-    route: 'Blu Jaz - Pekin Street to Lobby, INSEAD',
-    price: 25.90,
-    date: '30 Sep 2026, 10:03PM',
-    status: 'completed',
-    hasLightning: true,
-    bookingId: 'A-3BHFJ9DKL2PQRT',
-    driver: 'Passenger: Sarah Tan',
-    service: 'Standard | Car or taxi',
-    distance: '6.80 km',
-    duration: '14 min',
-    pickup: { place: 'Blu Jaz - Pekin Street', time: '10:03 PM' },
-    dropoff: { place: 'Lobby, INSEAD', time: '10:17 PM' },
-    payment: { type: 'VISA', last4: '0518' },
-  },
-  {
-    id: 4,
-    route: '910 Jurong West St 91 to Lobby, INSEAD',
-    price: null,
-    date: '30 Sep 2026, 10:00PM',
-    status: 'cancelled',
-    hasLightning: false,
-    bookingId: 'A-5CMXW1ZYP9NBVD',
-    driver: 'Not assigned',
-    service: 'Standard | Car or taxi',
-    distance: '0.00 km',
-    duration: '0 min',
-    pickup: { place: '910 Jurong West St 91', time: '10:00 PM' },
-    dropoff: { place: 'Lobby, INSEAD', time: '—' },
-    payment: { type: 'VISA', last4: '0518' },
-  },
-  {
-    id: 5,
-    route: 'Graduate Hall, NUS to North Bridge Rd Entrance, Funan Mall',
-    price: 73.60,
-    date: '28 Sep 2026, 03:11AM',
-    status: 'completed',
-    hasLightning: false,
-    bookingId: 'A-2QWER4TYUI7OPA',
-    driver: 'Passenger: Muhammad Faizal',
-    service: 'Standard | Car or taxi',
-    distance: '22.50 km',
-    duration: '28 min',
-    pickup: { place: 'Graduate Hall, NUS', time: '3:11 AM' },
-    dropoff: { place: 'North Bridge Rd Entrance, Funan Mall', time: '3:39 AM' },
-    payment: { type: 'VISA', last4: '8888' },
-  },
-  {
-    id: 6,
-    route: 'Pure K 纯K - Funan Mall to Lobby, MBS Hotel Tower 3',
-    price: 14.00,
-    date: '27 Sep 2026, 11:48PM',
-    status: 'completed',
-    hasLightning: false,
-    bookingId: 'A-8ZXCV1BNMA3SDF',
-    driver: 'Passenger: Koh Wei Ling',
-    service: 'Standard | Car or taxi',
-    distance: '4.20 km',
-    duration: '9 min',
-    pickup: { place: 'Pure K 纯K - Funan Mall', time: '11:48 PM' },
-    dropoff: { place: 'Lobby, MBS Hotel Tower 3', time: '11:57 PM' },
-    payment: { type: 'VISA', last4: '1234' },
-  },
-]
+    distance: '—',
+    duration: '—',
+    pickup: { place: row.pickup, time: row.datetime_sgt ? formatDateTime(row.datetime_sgt).split(', ')[1] : '—' },
+    dropoff: { place: row.destination, time: '—' },
+    payment: { type: 'VISA', last4: '0000' },
+    chatHistory: row.chat_history,
+  }
+}
+
+const riderTrips = tripsData.rider_trips.map(mapTrip)
+const driverTrips = tripsData.driver_trips.map(mapTrip)
+
+/* ---------- Issue categories ---------- */
 
 const riderIssueCategories = [
   'Route deviation',
