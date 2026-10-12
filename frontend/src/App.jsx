@@ -208,12 +208,20 @@ const driverTrips = [
   },
 ]
 
-const issueCategories = [
+const riderIssueCategories = [
   'Route deviation',
   'No-show / cancellation charge',
   'Fare / pricing dispute',
   'Property damage / cleaning fee',
   'Safety / driver misconduct',
+]
+
+const driverIssueCategories = [
+  'Route deviation',
+  'No-show / cancellation charge',
+  'Fare / pricing dispute',
+  'Property damage / cleaning fee',
+  'Safety / misconduct dispute',
 ]
 
 /* ---------- Icons ---------- */
@@ -815,9 +823,10 @@ function ChatBubble({ sender, text }) {
   )
 }
 
-function HelpCenter({ trip, onClose }) {
+function HelpCenter({ trip, onClose, role }) {
+  const issueCategories = role === 'driver' ? driverIssueCategories : riderIssueCategories
   const [messages, setMessages] = useState([
-    { sender: 'bot', text: 'Hello, Rider123 👋' },
+    { sender: 'bot', text: `Hello, ${role === 'driver' ? 'Driver' : 'Rider'}123 👋` },
     { sender: 'bot', text: "Thanks for reaching out! Choose an option below or describe your issue in one single message, and we'll try to find the right solution for you. 🙏" },
   ])
   const [input, setInput] = useState('')
@@ -984,7 +993,7 @@ function App() {
         <StatusBar />
 
         {showHelpCenter && selectedTrip ? (
-          <HelpCenter trip={selectedTrip} onClose={() => setShowHelpCenter(false)} />
+          <HelpCenter trip={selectedTrip} role={role} onClose={() => setShowHelpCenter(false)} />
         ) : selectedTrip ? (
           <TripDetail
             trip={selectedTrip}
