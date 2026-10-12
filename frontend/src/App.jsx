@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 /*
   Travel History / Activity UI
@@ -7,6 +7,7 @@ import React, { useState } from 'react'
     - Rate & tip
     - Rebook
   Tapping a card opens a detailed trip view.
+  "Report an issue" opens a Help Center chat.
 */
 
 const riderTrips = [
@@ -207,6 +208,14 @@ const driverTrips = [
   },
 ]
 
+const issueCategories = [
+  'Route deviation',
+  'No-show / cancellation charge',
+  'Fare / pricing dispute',
+  'Property damage / cleaning fee',
+  'Safety / driver misconduct',
+]
+
 /* ---------- Icons ---------- */
 
 function CarIcon({ className = 'w-6 h-6' }) {
@@ -365,6 +374,32 @@ function RedoIcon({ className = 'w-6 h-6' }) {
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M21 7v6h-6" />
       <path d="M3 17a9 9 0 019-9 9 9 0 016.24 2.5L21 13" />
+    </svg>
+  )
+}
+
+function CloseIcon({ className = 'w-6 h-6' }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18" />
+      <line x1="6" y1="6" x2="18" y2="18" />
+    </svg>
+  )
+}
+
+function SparklesIcon({ className = 'w-4 h-4' }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 3L14.5 8.5L20 11L14.5 13.5L12 19L9.5 13.5L4 11L9.5 8.5Z" />
+    </svg>
+  )
+}
+
+function SendIcon({ className = 'w-5 h-5' }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="22" y1="2" x2="11" y2="13" />
+      <polygon points="22 2 15 22 11 13 2 9 22 2" />
     </svg>
   )
 }
@@ -697,7 +732,7 @@ function DetailActionList({ onExport, onReport, onRebook }) {
   )
 }
 
-function TripDetail({ trip, onBack, onAction }) {
+function TripDetail({ trip, onBack, onAction, onReport }) {
   const isCancelled = trip.status === 'cancelled'
 
   return (
@@ -721,11 +756,144 @@ function TripDetail({ trip, onBack, onAction }) {
       <div className="mt-4">
         <DetailActionList
           onExport={() => onAction('Export receipt', trip.route)}
-          onReport={() => onAction('Report an issue', trip.route)}
+          onReport={onReport}
           onRebook={() => onAction('Rebook', trip.route)}
         />
       </div>
       <div className="h-6" />
+    </div>
+  )
+}
+
+function HelpCenterHeader({ onClose }) {
+  return (
+    <div className="flex items-center px-5 py-3">
+      <button
+        onClick={onClose}
+        className="flex h-9 w-9 items-center justify-center rounded-full text-gray-800 transition hover:bg-gray-100"
+      >
+        <CloseIcon className="w-6 h-6" />
+      </button>
+      <span className="flex-1 text-center text-lg font-bold text-gray-900">Help Center</span>
+      <div className="w-9" />
+    </div>
+  )
+}
+
+function TripSummary({ trip }) {
+  const destination = trip.route.split(' to ').pop()
+  return (
+    <div className="mx-5 flex items-center gap-3 rounded-xl border border-gray-100 bg-gray-50 px-4 py-3">
+      <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-brand-lightGreen text-brand-green">
+        <CarIcon className="w-5 h-5" />
+      </div>
+      <div className="flex-1 min-w-0">
+        <p className="truncate text-sm font-bold text-gray-900">Ride to {destination}</p>
+        <p className="text-xs text-gray-500">{trip.date}</p>
+      </div>
+      <span className="flex-shrink-0 text-sm font-bold text-gray-900">
+        {trip.price ? `S$${trip.price.toFixed(2)}` : '-'}
+      </span>
+    </div>
+  )
+}
+
+function ChatBubble({ sender, text }) {
+  const isBot = sender === 'bot'
+  return (
+    <div className={`mb-3 flex ${isBot ? 'justify-start' : 'justify-end'}`}>
+      <div
+        className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed ${
+          isBot
+            ? 'rounded-tl-none bg-gray-100 text-gray-800'
+            : 'rounded-tr-none bg-brand-lightGreen text-brand-green'
+        }`}
+      >
+        {text}
+      </div>
+    </div>
+  )
+}
+
+function HelpCenter({ trip, onClose }) {
+  const [messages, setMessages] = useState([
+    { sender: 'bot', text: 'Hello, Rider123 👋' },
+    { sender: 'bot', text: "Thanks for reaching out! Choose an option below or describe your issue in one single message, and we'll try to find the right solution for you. 🙏" },
+  ])
+  const [input, setInput] = useState('')
+  const scrollRef = useRef(null)
+
+  useEffect(() => {
+    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' })
+  }, [messages])
+
+  const handleCategory = (category) => {
+    setMessages((prev) => [...prev, { sender: 'user', text: category }])
+    setTimeout(() => {
+      setMessages((prev) => [
+        ...prev,
+        { sender: 'bot', text: `Thanks for reporting "${category}". Our support team will review this and get back to you shortly.` },
+      ])
+    }, 500)
+  }
+
+  const handleSend = () => {
+    const text = input.trim()
+    if (!text) return
+    setMessages((prev) => [...prev, { sender: 'user', text }])
+    setInput('')
+    setTimeout(() => {
+      setMessages((prev) => [
+        ...prev,
+        { sender: 'bot', text: "Thanks for your message. We've passed it to our support team." },
+      ])
+    }, 500)
+  }
+
+  return (
+    <div className="flex h-[calc(100vh-40px)] flex-col sm:h-[760px]">
+      <HelpCenterHeader onClose={onClose} />
+      <TripSummary trip={trip} />
+
+      <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-3 no-scrollbar">
+        <div className="mb-3 flex items-center gap-1 text-xs text-gray-500">
+          <SparklesIcon className="w-3.5 h-3.5" />
+          Powered by AI
+        </div>
+        {messages.map((msg, idx) => (
+          <ChatBubble key={idx} sender={msg.sender} text={msg.text} />
+        ))}
+        <div className="mt-2 flex flex-col items-end gap-2">
+          {issueCategories.map((category) => (
+            <button
+              key={category}
+              onClick={() => handleCategory(category)}
+              className="max-w-[85%] rounded-2xl bg-brand-lightGreen px-4 py-2 text-right text-sm font-semibold text-brand-green transition hover:bg-green-100"
+            >
+              {category}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="border-t border-gray-100 bg-white px-4 py-3">
+        <div className="flex items-center gap-2">
+          <input
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+            placeholder="Type a message"
+            className="flex-1 rounded-full border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-brand-green"
+          />
+          <button
+            onClick={handleSend}
+            disabled={!input.trim()}
+            className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-brand-green text-white transition hover:bg-green-600 disabled:opacity-50"
+          >
+            <SendIcon className="w-5 h-5" />
+          </button>
+        </div>
+      </div>
     </div>
   )
 }
@@ -785,6 +953,7 @@ function App() {
   const [toast, setToast] = useState(null)
   const [role, setRole] = useState('rider')
   const [selectedTrip, setSelectedTrip] = useState(null)
+  const [showHelpCenter, setShowHelpCenter] = useState(false)
 
   const handleAction = (action, route) => {
     setToast(`${action}: ${route}`)
@@ -794,6 +963,17 @@ function App() {
   const handleToggle = () => {
     setRole((prev) => (prev === 'rider' ? 'driver' : 'rider'))
     setSelectedTrip(null)
+    setShowHelpCenter(false)
+  }
+
+  const handleSelectTrip = (trip) => {
+    setSelectedTrip(trip)
+    setShowHelpCenter(false)
+  }
+
+  const handleBackFromDetail = () => {
+    setSelectedTrip(null)
+    setShowHelpCenter(false)
   }
 
   const trips = role === 'rider' ? riderTrips : driverTrips
@@ -803,11 +983,14 @@ function App() {
       <div className="relative w-full max-w-md overflow-hidden bg-white sm:min-h-[800px] sm:rounded-[2.5rem] sm:shadow-soft">
         <StatusBar />
 
-        {selectedTrip ? (
+        {showHelpCenter && selectedTrip ? (
+          <HelpCenter trip={selectedTrip} onClose={() => setShowHelpCenter(false)} />
+        ) : selectedTrip ? (
           <TripDetail
             trip={selectedTrip}
-            onBack={() => setSelectedTrip(null)}
+            onBack={handleBackFromDetail}
             onAction={handleAction}
+            onReport={() => setShowHelpCenter(true)}
           />
         ) : (
           <>
@@ -823,7 +1006,7 @@ function App() {
                   key={trip.id}
                   trip={trip}
                   onAction={handleAction}
-                  onSelect={setSelectedTrip}
+                  onSelect={handleSelectTrip}
                 />
               ))}
             </div>
